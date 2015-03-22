@@ -1,4 +1,7 @@
 Revision history for Map::Tube::Plugin::Formatter
 
+0.02  Sun Mar 22 22:12:00 2015
+      - Added support for YAML representation.
+
 0.01  Sun Mar 22 11:20:00 2015
       - Module Created.

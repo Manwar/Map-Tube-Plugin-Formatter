@@ -1,6 +1,6 @@
 package Map::Tube::Plugin::Formatter;
 
-$Map::Tube::Plugin::Formatter::VERSION = '0.01';
+$Map::Tube::Plugin::Formatter::VERSION = '0.02';
 
 =head1 NAME
 
@@ -8,13 +8,12 @@ Map::Tube::Plugin::Formatter - Formatter plugin for Map::Tube.
 
 =head1 VERSION
 
-Version 0.01
+Version 0.02
 
 =cut
 
 use 5.006;
-use Data::Dumper;
-
+use YAML;
 use JSON qw();
 use Map::Tube::Plugin::Formatter::Utils qw(xml validate_object);
 
@@ -35,17 +34,11 @@ It currently formats the data in the following formats.
 
 =item JSON
 
-=back
-
-Further support for the following formats will be provided very soon.
-
-=over 4
-
-=item TEXT
-
 =item YAML
 
 =back
+
+Further support for the TEXT format will be provided very soon.
 
 =head1 SUPPORTED OBJECTS
 
@@ -69,8 +62,9 @@ In near future, it will further accept L<Map::Tube::Route> object as well.
     my $tube = Map::Tube::London->new;
     my $node = $tube->get_node_by_name('Baker Street');
 
-    print "XML : \n", $tube->to_xml($node);
-    print "JSON: \n", $tube->to_json($node);
+    print $tube->to_xml($node) , "\n\n";
+    print $tube->to_json($node), "\n\n";
+    print $tube->to_yaml($node), "\n\n";
 
 =head1 METHODS
 
@@ -149,6 +143,38 @@ sub to_json {
     }
 
     return JSON->new->utf8(1)->pretty->encode($data);
+}
+
+=head2 to_yaml($object)
+
+It takes an object (supported) and returns YAML representation of the same.
+
+=cut
+
+sub to_yaml {
+    my ($self, $object) = @_;
+
+    validate_object($object);
+
+    my $data = {};
+    if (ref($object) eq 'Map::Tube::Node') {
+        $data = {
+            id    => $object->id,
+            name  => $object->name,
+            links => [ map {{ id => $_,     name => $self->get_node_by_id($_)->name }} (split /\,/,$object->link) ],
+            lines => [ map {{ id => $_->id, name => $_->name                        }} (@{$object->line})         ],
+        };
+    }
+    elsif (ref($object) eq 'Map::Tube::Line') {
+        $data = {
+            id       => $object->id,
+            name     => $object->name,
+            color    => $object->color || 'undef',
+            stations => [ map {{ id => $_->id, name => $_->name }} (@{$object->get_stations}) ],
+        };
+    }
+
+    return Dump($data);
 }
 
 =head1 AUTHOR

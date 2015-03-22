@@ -20,6 +20,7 @@ WriteMakefile(
         'Test::More' => 0,
     },
     PREREQ_PM              => {
+        'YAML'             => 0,
         'JSON'             => 0,
         'XML::Twig'        => 0,
         'Moo::Role'        => 0,
