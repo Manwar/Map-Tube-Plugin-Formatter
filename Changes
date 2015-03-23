@@ -1,5 +1,8 @@
 Revision history for Map::Tube::Plugin::Formatter
 
+0.04  Mon Mar 23 11:40:00 2015
+      - Tidied up pod document of the package Map::Tube::Plugin::Formatter.
+
 0.03  Mon Mar 23 10:55:00 2015
       - Added new method get_data() to the package Map::Tube::Plugin::Formatter::Utils.
       - Refactored method to_json() and to_yaml() to make use of new method get_data().

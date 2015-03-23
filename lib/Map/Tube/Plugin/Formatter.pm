@@ -1,6 +1,6 @@
 package Map::Tube::Plugin::Formatter;
 
-$Map::Tube::Plugin::Formatter::VERSION = '0.03';
+$Map::Tube::Plugin::Formatter::VERSION = '0.04';
 
 =head1 NAME
 
@@ -8,7 +8,7 @@ Map::Tube::Plugin::Formatter - Formatter plugin for Map::Tube.
 
 =head1 VERSION
 
-Version 0.03
+Version 0.04
 
 =cut
 
@@ -35,12 +35,6 @@ A very simple add-on for L<Map::Tube> to format the supported object.
     print $tube->to_xml($node) , "\n\n";
     print $tube->to_json($node), "\n\n";
     print $tube->to_yaml($node), "\n\n";
-
-=head1 METHODS
-
-=head2 to_xml($object)
-
-It takes an object (supported) and returns XML representation of the same.
 
 =head1 SUPPORTED FORMATS
 
@@ -71,6 +65,12 @@ It currently accepts the following objects.
 =back
 
 In near future, it will further accept L<Map::Tube::Route> object as well.
+
+=head1 METHODS
+
+=head2 to_xml($object)
+
+It takes an object (supported) and returns XML representation of the same.
 
 =cut
 
