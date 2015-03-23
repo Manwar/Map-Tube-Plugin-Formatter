@@ -1,6 +1,6 @@
 package Map::Tube::Plugin::Formatter::Utils;
 
-$Map::Tube::Plugin::Formatter::Utils::VERSION = '0.02';
+$Map::Tube::Plugin::Formatter::Utils::VERSION = '0.03';
 
 =head1 NAME
 
@@ -8,14 +8,14 @@ Map::Tube::Plugin::Formatter::Utils - Helper package for Map::Tube::Plugin::Form
 
 =head1 VERSION
 
-Version 0.02
+Version 0.03
 
 =cut
 
 use vars qw(@ISA @EXPORT_OK);
 require Exporter;
 @ISA       = qw(Exporter);
-@EXPORT_OK = qw(xml validate_object);
+@EXPORT_OK = qw(xml get_data validate_object);
 
 use 5.006;
 use strict; use warnings;
@@ -51,6 +51,32 @@ sub xml {
 
     $twig->set_pretty_print('indented');
     return $twig->sprint;
+}
+
+sub get_data {
+    my ($self, $object) = @_;
+
+    validate_object($object);
+
+    my $data = {};
+    if (ref($object) eq 'Map::Tube::Node') {
+        $data = {
+            id    => $object->id,
+            name  => $object->name,
+            links => [ map {{ id => $_,     name => $self->get_node_by_id($_)->name }} (split /\,/,$object->link) ],
+            lines => [ map {{ id => $_->id, name => $_->name                        }} (@{$object->line})         ],
+        };
+    }
+    elsif (ref($object) eq 'Map::Tube::Line') {
+        $data = {
+            id       => $object->id,
+            name     => $object->name,
+            color    => $object->color || 'undef',
+            stations => [ map {{ id => $_->id, name => $_->name }} (@{$object->get_stations}) ],
+        };
+    }
+
+    return $data;
 }
 
 sub validate_object {

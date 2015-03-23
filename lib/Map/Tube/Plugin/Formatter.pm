@@ -1,6 +1,6 @@
 package Map::Tube::Plugin::Formatter;
 
-$Map::Tube::Plugin::Formatter::VERSION = '0.02';
+$Map::Tube::Plugin::Formatter::VERSION = '0.03';
 
 =head1 NAME
 
@@ -8,21 +8,39 @@ Map::Tube::Plugin::Formatter - Formatter plugin for Map::Tube.
 
 =head1 VERSION
 
-Version 0.02
+Version 0.03
 
 =cut
 
 use 5.006;
 use YAML;
 use JSON qw();
-use Map::Tube::Plugin::Formatter::Utils qw(xml validate_object);
+use Map::Tube::Plugin::Formatter::Utils qw(xml get_data validate_object);
 
 use Moo::Role;
 use namespace::clean;
 
 =head1 DESCRIPTION
 
-It's a formatter plugin for L<Map::Tube> to format the data.
+A very simple add-on for L<Map::Tube> to format the supported object.
+
+=head1 SYNOPSIS
+
+    use strict; use warnings;
+    use Map::Tube::London;
+
+    my $tube = Map::Tube::London->new;
+    my $node = $tube->get_node_by_name('Baker Street');
+
+    print $tube->to_xml($node) , "\n\n";
+    print $tube->to_json($node), "\n\n";
+    print $tube->to_yaml($node), "\n\n";
+
+=head1 METHODS
+
+=head2 to_xml($object)
+
+It takes an object (supported) and returns XML representation of the same.
 
 =head1 SUPPORTED FORMATS
 
@@ -53,24 +71,6 @@ It currently accepts the following objects.
 =back
 
 In near future, it will further accept L<Map::Tube::Route> object as well.
-
-=head1 SYNOPSIS
-
-    use strict; use warnings;
-    use Map::Tube::London;
-
-    my $tube = Map::Tube::London->new;
-    my $node = $tube->get_node_by_name('Baker Street');
-
-    print $tube->to_xml($node) , "\n\n";
-    print $tube->to_json($node), "\n\n";
-    print $tube->to_yaml($node), "\n\n";
-
-=head1 METHODS
-
-=head2 to_xml($object)
-
-It takes an object (supported) and returns XML representation of the same.
 
 =cut
 
@@ -122,27 +122,7 @@ It takes an object (supported) and returns JSON representation of the same.
 sub to_json {
     my ($self, $object) = @_;
 
-    validate_object($object);
-
-    my $data = {};
-    if (ref($object) eq 'Map::Tube::Node') {
-        $data = {
-            id    => $object->id,
-            name  => $object->name,
-            links => [ map {{ id => $_,     name => $self->get_node_by_id($_)->name }} (split /\,/,$object->link) ],
-            lines => [ map {{ id => $_->id, name => $_->name                        }} (@{$object->line})         ],
-        };
-    }
-    elsif (ref($object) eq 'Map::Tube::Line') {
-        $data = {
-            id       => $object->id,
-            name     => $object->name,
-            color    => $object->color || 'undef',
-            stations => [ map {{ id => $_->id, name => $_->name }} (@{$object->get_stations}) ],
-        };
-    }
-
-    return JSON->new->utf8(1)->pretty->encode($data);
+    return JSON->new->utf8(1)->pretty->encode(get_data($self, $object));
 }
 
 =head2 to_yaml($object)
@@ -154,27 +134,7 @@ It takes an object (supported) and returns YAML representation of the same.
 sub to_yaml {
     my ($self, $object) = @_;
 
-    validate_object($object);
-
-    my $data = {};
-    if (ref($object) eq 'Map::Tube::Node') {
-        $data = {
-            id    => $object->id,
-            name  => $object->name,
-            links => [ map {{ id => $_,     name => $self->get_node_by_id($_)->name }} (split /\,/,$object->link) ],
-            lines => [ map {{ id => $_->id, name => $_->name                        }} (@{$object->line})         ],
-        };
-    }
-    elsif (ref($object) eq 'Map::Tube::Line') {
-        $data = {
-            id       => $object->id,
-            name     => $object->name,
-            color    => $object->color || 'undef',
-            stations => [ map {{ id => $_->id, name => $_->name }} (@{$object->get_stations}) ],
-        };
-    }
-
-    return Dump($data);
+    return Dump(get_data($self, $object));
 }
 
 =head1 AUTHOR
