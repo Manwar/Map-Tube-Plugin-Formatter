@@ -1,6 +1,6 @@
 package Map::Tube::Plugin::Formatter::Utils;
 
-$Map::Tube::Plugin::Formatter::Utils::VERSION = '0.04';
+$Map::Tube::Plugin::Formatter::Utils::VERSION = '0.05';
 
 =head1 NAME
 
@@ -8,7 +8,7 @@ Map::Tube::Plugin::Formatter::Utils - Helper package for Map::Tube::Plugin::Form
 
 =head1 VERSION
 
-Version 0.04
+Version 0.05
 
 =cut
 
@@ -98,7 +98,7 @@ L<https://github.com/Manwar/Map-Tube-Plugin-Formatter>
 
 =head1 BUGS
 
-Please report any bugs or feature requests to C<bug-map-tube at rt.cpan.org>,  or
+Please report any bugs or feature requests to C<bug-map-tube-plugin-formatter at rt.cpan.org>,  or
 through the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Map-Tube-Plugin-Formatter>.
 I will  be notified and then you'll automatically be notified of progress on your
 bug as I make changes.

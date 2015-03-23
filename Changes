@@ -1,5 +1,8 @@
 Revision history for Map::Tube::Plugin::Formatter
 
+0.05  Mon Mar 23 18:10:00 2015
+      - Updated email address for reporting bug in the pod document.
+
 0.04  Mon Mar 23 11:40:00 2015
       - Tidied up pod document of the package Map::Tube::Plugin::Formatter.
 
