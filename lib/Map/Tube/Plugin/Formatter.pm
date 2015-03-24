@@ -1,6 +1,6 @@
 package Map::Tube::Plugin::Formatter;
 
-$Map::Tube::Plugin::Formatter::VERSION = '0.05';
+$Map::Tube::Plugin::Formatter::VERSION = '0.06';
 
 =head1 NAME
 
@@ -8,7 +8,7 @@ Map::Tube::Plugin::Formatter - Formatter plugin for Map::Tube.
 
 =head1 VERSION
 
-Version 0.05
+Version 0.06
 
 =cut
 
@@ -32,13 +32,14 @@ A very simple add-on for L<Map::Tube> to format the supported objects.
     my $tube = Map::Tube::London->new;
     my $node = $tube->get_node_by_name('Baker Street');
 
-    print $tube->to_xml($node) , "\n\n";
-    print $tube->to_json($node), "\n\n";
-    print $tube->to_yaml($node), "\n\n";
+    print $tube->to_xml($node) ,  "\n\n";
+    print $tube->to_json($node),  "\n\n";
+    print $tube->to_yaml($node),  "\n\n";
+    print $tube->to_string($node),"\n\n";
 
 =head1 SUPPORTED FORMATS
 
-It currently formats the data in the following formats.
+It currently supports the following formats.
 
 =over 4
 
@@ -48,13 +49,13 @@ It currently formats the data in the following formats.
 
 =item YAML
 
-=back
+=item STRING
 
-Further support for the TEXT format will be provided very soon.
+=back
 
 =head1 SUPPORTED OBJECTS
 
-It currently accepts the following objects.
+It currently supports the following objects.
 
 =over 4
 
@@ -137,6 +138,20 @@ sub to_yaml {
     return Dump(get_data($self, $object));
 }
 
+=head2 to_string($object)
+
+It takes an object (supported) and returns STRING representation of the same.
+
+=cut
+
+sub to_string {
+    my ($self, $object) = @_;
+
+    validate_object($object);
+
+    return $object->as_string;
+}
+
 =head1 AUTHOR
 
 Mohammad S Anwar, C<< <mohammad.anwar at yahoo.com> >>
@@ -147,8 +162,8 @@ L<https://github.com/Manwar/Map-Tube-Plugin-Formatter>
 
 =head1 BUGS
 
-Please report any bugs or feature requests to C<bug-map-tube-plugin-formatter at rt.cpan.org>,  or
-through the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Map-Tube-Plugin-Formatter>.
+Please report any bugs or feature requests to C<bug-map-tube-plugin-formatter at rt.cpan.org>,
+or through the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Map-Tube-Plugin-Formatter>.
 I will  be notified and then you'll automatically be notified of progress on your
 bug as I make changes.
 
@@ -184,8 +199,8 @@ L<http://search.cpan.org/dist/Map-Tube-Plugin-Formatter/>
 
 Copyright (C) 2015 Mohammad S Anwar.
 
-This  program  is  free software; you can redistribute it and/or modify it under
-the  terms  of the the Artistic License (2.0). You may obtain a copy of the full
+This program  is  free software; you can redistribute it and / or modify it under
+the  terms  of the the Artistic License (2.0). You may obtain a  copy of the full
 license at:
 
 L<http://www.perlfoundation.org/artistic_license_2_0>
