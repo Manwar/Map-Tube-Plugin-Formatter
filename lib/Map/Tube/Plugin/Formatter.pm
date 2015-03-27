@@ -1,6 +1,6 @@
 package Map::Tube::Plugin::Formatter;
 
-$Map::Tube::Plugin::Formatter::VERSION = '0.06';
+$Map::Tube::Plugin::Formatter::VERSION = '0.07';
 
 =head1 NAME
 
@@ -8,7 +8,7 @@ Map::Tube::Plugin::Formatter - Formatter plugin for Map::Tube.
 
 =head1 VERSION
 
-Version 0.06
+Version 0.07
 
 =cut
 
@@ -30,12 +30,18 @@ A very simple add-on for L<Map::Tube> to format the supported objects.
     use Map::Tube::London;
 
     my $tube = Map::Tube::London->new;
-    my $node = $tube->get_node_by_name('Baker Street');
 
+    my $node = $tube->get_node_by_name('Baker Street');
     print $tube->to_xml($node) ,  "\n\n";
     print $tube->to_json($node),  "\n\n";
     print $tube->to_yaml($node),  "\n\n";
     print $tube->to_string($node),"\n\n";
+
+    my $line = $tube->get_line_by_name('Metropolitan');
+    print $tube->to_xml($line) ,  "\n\n";
+    print $tube->to_json($line),  "\n\n";
+    print $tube->to_yaml($line),  "\n\n";
+    print $tube->to_string($line),"\n\n";
 
 =head1 SUPPORTED FORMATS
 

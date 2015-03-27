@@ -1,5 +1,8 @@
 Revision history for Map::Tube::Plugin::Formatter
 
+0.07  Fri Mar 27 15:35:00 2015
+      - Added code to the section "SYNOPSIS" to show formatting object of type Map::Tube::Line.
+
 0.06  Tue Mar 24 10:50:00 2015
       - Added method to_string() to the package Map::Tube::Plugin::Formatter.
       - Tidied up pod document with regards to the above changes.
