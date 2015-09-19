@@ -1,5 +1,8 @@
 Revision history for Map::Tube::Plugin::Formatter
 
+0.08  Sat Sep 19 04:45:00 2015
+      - Replaced die() with exception Map::Tube::Exception::*.
+
 0.07  Fri Mar 27 15:35:00 2015
       - Added code to the section "SYNOPSIS" to show formatting object of type Map::Tube::Line.
 

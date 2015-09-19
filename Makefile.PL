@@ -19,12 +19,13 @@ WriteMakefile(
     BUILD_REQUIRES   => {
         'Test::More' => 0,
     },
-    PREREQ_PM              => {
-        'YAML'             => 0,
-        'JSON'             => 0,
-        'XML::Twig'        => 0,
-        'Moo::Role'        => 0,
-        'namespace::clean' => 0,
+    PREREQ_PM                  => {
+        'YAML'                 => '0.84',
+        'JSON'                 => '2.53',
+        'XML::Twig'            => '3.48',
+        'Moo::Role'            => '2.000000',
+        'namespace::clean'     => '0.24',
+        'Map::Tube::Exception' => '3.03',
     },
     dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean => { FILES => 'Map-Tube-Plugin-Formatter-*' },

@@ -1,6 +1,6 @@
 package Map::Tube::Plugin::Formatter::Utils;
 
-$Map::Tube::Plugin::Formatter::Utils::VERSION = '0.07';
+$Map::Tube::Plugin::Formatter::Utils::VERSION = '0.08';
 
 =head1 NAME
 
@@ -8,7 +8,7 @@ Map::Tube::Plugin::Formatter::Utils - Helper package for Map::Tube::Plugin::Form
 
 =head1 VERSION
 
-Version 0.07
+Version 0.08
 
 =cut
 
@@ -21,6 +21,9 @@ use 5.006;
 use strict; use warnings;
 use Data::Dumper;
 use XML::Twig;
+use Map::Tube::Exception::MissingSupportedObject;
+use Map::Tube::Exception::InvalidSupportedObject;
+use Map::Tube::Exception::FoundUnsupportedObject;
 
 =head1 DESCRIPTION
 
@@ -82,10 +85,29 @@ sub get_data {
 sub validate_object {
     my ($object) = @_;
 
-    die "ERROR: No object received.\n"          unless defined $object;
-    die "ERROR: Invalid object received.\n"     unless ref($object);
-    die "ERROR: Unsupported object received.\n" unless ((ref($object) eq 'Map::Tube::Node')
-                                                        || (ref($object) eq 'Map::Tube::Line'));
+    my @caller = caller(0);
+    @caller = caller(2) if $caller[3] eq '(eval)';
+
+    Map::Tube::Exception::MissingSupportedObject->throw({
+        method      => __PACKAGE__."::validate_object",
+        message     => "ERROR: No object received.",
+        filename    => $caller[1],
+        line_number => $caller[2] })
+        unless defined $object;
+
+    Map::Tube::Exception::InvalidSupportedObject->throw({
+        method      => __PACKAGE__."::validate_object",
+        message     => "ERROR: Invalid object received.",
+        filename    => $caller[1],
+        line_number => $caller[2] })
+        unless ref($object);
+
+    Map::Tube::Exception::FoundUnsupportedObject->throw({
+        method      => __PACKAGE__."::validate_object",
+        message     => "ERROR: Unsupported object received.",
+        filename    => $caller[1],
+        line_number => $caller[2] })
+        unless ((ref($object) eq 'Map::Tube::Node') || (ref($object) eq 'Map::Tube::Line'));
 }
 
 =head1 AUTHOR
