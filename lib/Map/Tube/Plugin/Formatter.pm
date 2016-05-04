@@ -1,6 +1,7 @@
 package Map::Tube::Plugin::Formatter;
 
-$Map::Tube::Plugin::Formatter::VERSION = '0.08';
+$Map::Tube::Plugin::Formatter::VERSION   = '0.09';
+$Map::Tube::Plugin::Formatter::AUTHORITY = 'cpan:MANWAR';
 
 =head1 NAME
 
@@ -8,7 +9,7 @@ Map::Tube::Plugin::Formatter - Formatter plugin for Map::Tube.
 
 =head1 VERSION
 
-Version 0.08
+Version 0.09
 
 =cut
 
@@ -49,13 +50,13 @@ It currently supports the following formats.
 
 =over 4
 
-=item XML
+=item * XML
 
-=item JSON
+=item * JSON
 
-=item YAML
+=item * YAML
 
-=item STRING
+=item * STRING
 
 =back
 
@@ -65,13 +66,13 @@ It currently supports the following objects.
 
 =over 4
 
-=item L<Map::Tube::Node>
+=item * L<Map::Tube::Node>
 
-=item L<Map::Tube::Line>
+=item * L<Map::Tube::Line>
+
+=item * L<Map::Tube::Route>
 
 =back
-
-In near future, it will further accept L<Map::Tube::Route> object as well.
 
 =head1 METHODS
 
@@ -112,6 +113,24 @@ sub to_xml {
                 children    => {
                     station => [ map {{ id => $_->id, name => $_->name }} (@{$object->get_stations}) ],
                 },
+            },
+        };
+    }
+    elsif (ref($object) eq 'Map::Tube::Route') {
+        my $children = {};
+        my $nodes    = $object->nodes;
+        my $size     = $#$nodes;
+        foreach my $i (1..($size-1)) {
+            push @{$children->{node}}, { name => $nodes->[$i]->as_string, order => $i };
+        }
+
+        $data = {
+            route => {
+                attributes => {
+                    from   => $object->from->as_string,
+                    to     => $object->to->as_string,
+                },
+                children   => $children,
             },
         };
     }
@@ -164,7 +183,7 @@ Mohammad S Anwar, C<< <mohammad.anwar at yahoo.com> >>
 
 =head1 REPOSITORY
 
-L<https://github.com/Manwar/Map-Tube-Plugin-Formatter>
+L<https://github.com/manwar/Map-Tube-Plugin-Formatter>
 
 =head1 BUGS
 
@@ -203,7 +222,7 @@ L<http://search.cpan.org/dist/Map-Tube-Plugin-Formatter/>
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright (C) 2015 Mohammad S Anwar.
+Copyright (C) 2015 - 2016 Mohammad S Anwar.
 
 This program  is  free software; you can redistribute it and / or modify it under
 the  terms  of the the Artistic License (2.0). You may obtain a  copy of the full

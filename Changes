@@ -1,5 +1,9 @@
 Revision history for Map::Tube::Plugin::Formatter
 
+0.09  Wed May 04 20:35:00 2016
+      - Added support for object Map::Tube::Route.
+      - Updated copyright year information.
+
 0.08  Sat Sep 19 04:45:00 2015
       - Replaced die() with exception Map::Tube::Exception::*.
 

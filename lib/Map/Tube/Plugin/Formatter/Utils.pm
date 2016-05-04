@@ -1,6 +1,7 @@
 package Map::Tube::Plugin::Formatter::Utils;
 
-$Map::Tube::Plugin::Formatter::Utils::VERSION = '0.08';
+$Map::Tube::Plugin::Formatter::Utils::VERSION   = '0.09';
+$Map::Tube::Plugin::Formatter::Utils::AUTHORITY = 'cpan:MANWAR';
 
 =head1 NAME
 
@@ -8,7 +9,7 @@ Map::Tube::Plugin::Formatter::Utils - Helper package for Map::Tube::Plugin::Form
 
 =head1 VERSION
 
-Version 0.08
+Version 0.09
 
 =cut
 
@@ -78,6 +79,20 @@ sub get_data {
             stations => [ map {{ id => $_->id, name => $_->name }} (@{$object->get_stations}) ],
         };
     }
+    elsif (ref($object) eq 'Map::Tube::Route') {
+        my $children = [];
+        my $nodes    = $object->nodes;
+        my $size     = $#$nodes;
+        foreach my $i (1..($size-1)) {
+            push @{$children}, { name => $nodes->[$i]->as_string, order => $i };
+        }
+
+        $data = {
+            from     => $object->from->as_string,
+            to       => $object->to->as_string,
+            nodes    => $children,
+        };
+    }
 
     return $data;
 }
@@ -107,7 +122,9 @@ sub validate_object {
         message     => "ERROR: Unsupported object received.",
         filename    => $caller[1],
         line_number => $caller[2] })
-        unless ((ref($object) eq 'Map::Tube::Node') || (ref($object) eq 'Map::Tube::Line'));
+        unless ((ref($object) eq 'Map::Tube::Node')
+                || (ref($object) eq 'Map::Tube::Line')
+                || (ref($object) eq 'Map::Tube::Route'));
 }
 
 =head1 AUTHOR
@@ -116,7 +133,7 @@ Mohammad S Anwar, C<< <mohammad.anwar at yahoo.com> >>
 
 =head1 REPOSITORY
 
-L<https://github.com/Manwar/Map-Tube-Plugin-Formatter>
+L<https://github.com/manwar/Map-Tube-Plugin-Formatter>
 
 =head1 BUGS
 
@@ -155,7 +172,7 @@ L<http://search.cpan.org/dist/Map-Tube-Plugin-Formatter/>
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright (C) 2015 Mohammad S Anwar.
+Copyright (C) 2015 - 2016 Mohammad S Anwar.
 
 This program  is  free software; you can redistribute it and / or modify it under
 the  terms  of the the Artistic License (2.0). You may obtain  a copy of the full
