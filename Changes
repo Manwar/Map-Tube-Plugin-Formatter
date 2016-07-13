@@ -1,5 +1,10 @@
 Revision history for Map::Tube::Plugin::Formatter
 
+0.10  Wed Jul 13 10:05:00 2016
+      - Updated pod with regard to format Map::Tube::Route.
+      - Added SEE ALSO section to the pod.
+      - Tidied up test scripts.
+
 0.09  Wed May 04 20:35:00 2016
       - Added support for object Map::Tube::Route.
       - Updated copyright year information.

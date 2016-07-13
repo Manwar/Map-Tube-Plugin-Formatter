@@ -1,6 +1,6 @@
 package Map::Tube::Plugin::Formatter;
 
-$Map::Tube::Plugin::Formatter::VERSION   = '0.09';
+$Map::Tube::Plugin::Formatter::VERSION   = '0.10';
 $Map::Tube::Plugin::Formatter::AUTHORITY = 'cpan:MANWAR';
 
 =head1 NAME
@@ -9,7 +9,7 @@ Map::Tube::Plugin::Formatter - Formatter plugin for Map::Tube.
 
 =head1 VERSION
 
-Version 0.09
+Version 0.10
 
 =cut
 
@@ -30,19 +30,25 @@ A very simple add-on for L<Map::Tube> to format the supported objects.
     use strict; use warnings;
     use Map::Tube::London;
 
-    my $tube = Map::Tube::London->new;
+    my $map = Map::Tube::London->new;
 
-    my $node = $tube->get_node_by_name('Baker Street');
-    print $tube->to_xml($node) ,  "\n\n";
-    print $tube->to_json($node),  "\n\n";
-    print $tube->to_yaml($node),  "\n\n";
-    print $tube->to_string($node),"\n\n";
+    my $node = $map->get_node_by_name('Baker Street');
+    print $map->to_xml($node) ,   "\n\n";
+    print $map->to_json($node),   "\n\n";
+    print $map->to_yaml($node),   "\n\n";
+    print $map->to_string($node), "\n\n";
 
-    my $line = $tube->get_line_by_name('Metropolitan');
-    print $tube->to_xml($line) ,  "\n\n";
-    print $tube->to_json($line),  "\n\n";
-    print $tube->to_yaml($line),  "\n\n";
-    print $tube->to_string($line),"\n\n";
+    my $line = $map->get_line_by_name('Metropolitan');
+    print $map->to_xml($line) ,   "\n\n";
+    print $map->to_json($line),   "\n\n";
+    print $map->to_yaml($line),   "\n\n";
+    print $map->to_string($line), "\n\n";
+
+    my $route = $map->get_shortest_route('Baker Street', 'Wembley Park');
+    print $map->to_xml($route),   "\n\n";
+    print $map->to_json($route),  "\n\n";
+    print $map->to_yaml($route),  "\n\n";
+    print $map->to_string($route),"\n\n";
 
 =head1 SUPPORTED FORMATS
 
@@ -184,6 +190,14 @@ Mohammad S Anwar, C<< <mohammad.anwar at yahoo.com> >>
 =head1 REPOSITORY
 
 L<https://github.com/manwar/Map-Tube-Plugin-Formatter>
+
+=head1 SEE ALSO
+
+=over 4
+
+=item * L<Map::Tube>
+
+=back
 
 =head1 BUGS
 
