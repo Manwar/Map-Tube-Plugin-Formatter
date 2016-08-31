@@ -1,5 +1,9 @@
 Revision history for Map::Tube::Plugin::Formatter
 
+0.11  Wed Aug 31 10:50:00 2016
+      - Added 'provides' to the Makefile.PL script.
+      - Updated dependency on Map::Tube::Exception v3.04.
+
 0.10  Wed Jul 13 10:05:00 2016
       - Updated pod with regard to format Map::Tube::Route.
       - Added SEE ALSO section to the pod.
