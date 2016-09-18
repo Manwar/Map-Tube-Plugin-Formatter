@@ -1,5 +1,8 @@
 Revision history for Map::Tube::Plugin::Formatter
 
+0.12  Sun Sep 18 08:05:00 2016
+      - Added unit test scripts (t/meta-json.t and t/meta-yml.t).
+
 0.11  Wed Aug 31 10:50:00 2016
       - Added 'provides' to the Makefile.PL script.
       - Updated dependency on Map::Tube::Exception v3.04.
